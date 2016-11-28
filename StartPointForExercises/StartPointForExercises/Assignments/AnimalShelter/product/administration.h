@@ -3,7 +3,7 @@
 
 #include "animal.h"
 
-int addAnimal(const ANIMAL* animalPtr, ANIMAL* animalArray, int animalArrayLength, int* newAnimalArrayLength);
+int addAnimal(const ANIMAL* animalPtr, ANIMAL* animalArray, int animalArrayLength, int* newAnimalArrayLength);		
 /* pre    : animalArray has enough space for 1 more animal
  * post   : animalArray is extended with the information from animalPtr, the updated array length is passed in newAnimalArrayLength
  * returns: 0 on success or -1 if an error occurs
