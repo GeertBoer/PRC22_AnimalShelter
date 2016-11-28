@@ -33,6 +33,7 @@ void test_addAnimalToArray(void)
 	int newArraySize = 0;
 	ANIMAL animalArray[arraySize];
 	TEST_ASSERT_EQUAL(0 ,addAnimal(&animal, animalArray, arraySize, &newArraySize));
+	TEST_ASSERT_EQUAL(2, newArraySize);
 }
 
 void test_addNullAnimalToArray(void)

@@ -15,3 +15,30 @@ int addAnimal(const ANIMAL* animalPtr, ANIMAL* animalArray, int animalArrayLengt
 		return 0;
 	}
 }
+
+int sortAnimalsByAge(ANIMAL* animalArray, int animalArrayLength)
+{
+	ANIMAL tmpAnimal;
+	int changed;
+	do
+	{
+		changed = 0;
+
+		for (int i = 0; i < animalArrayLength; i++)
+		{
+			if (animalArray[0].Age < animalArray[1].Age)
+			{
+				tmpAnimal = animalArray[0];
+				animalArray[0] = animalArray[1];
+				animalArray[1] = tmpAnimal;
+				changed = 1;
+			}
+		}
+	} while (changed == 1);
+	
+	return 0;
+}
+/* pre    : 
+ * post   : All animals in animalArray are sorted by age
+ * returns: 0 on success or -1 if an error occurs
+ */
