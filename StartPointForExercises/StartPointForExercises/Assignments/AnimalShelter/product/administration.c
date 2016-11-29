@@ -26,16 +26,16 @@ int sortAnimalsByAge(ANIMAL* animalArray, int animalArrayLength)
 
 		for (int i = 0; i < animalArrayLength; i++)
 		{
-			if (animalArray[0].Age < animalArray[1].Age)
+			if (animalArray[i].Age < animalArray[i + 1].Age)
 			{
-				tmpAnimal = animalArray[0];
-				animalArray[0] = animalArray[1];
-				animalArray[1] = tmpAnimal;
+				tmpAnimal = animalArray[i];
+				animalArray[i] = animalArray[i + 1];
+				animalArray[i + 1] = tmpAnimal;
 				changed = 1;
 			}
 		}
 	} while (changed == 1);
-	
+
 	return 0;
 }
 /* pre    : 
