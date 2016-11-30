@@ -41,22 +41,14 @@ int writeAnimals(const char* filename, const ANIMAL* animalPtr, int nrAnimals)
 	}
 
 	fp = fopen(filename, &mode);
-	if(fp!=NULL)
+	if(fp != NULL)
 	{
-		if(fwrite(animalPtr, sizeof(ANIMAL), nrAnimals, fp) == 0)
+		if (fwrite(animalPtr, sizeof(ANIMAL), nrAnimals, fp) != 0)
 		{
-			return -1;
-		}
-		else
-		{
-			fwrite(animalPtr, sizeof(ANIMAL), nrAnimals, fp);
 			return 0;
-		}		
+		}	
 	}
-	else
-	{
-		return -1;	
-	}
+	return -1;	
 }
 /* pre    : 
  * post   : nrAnimals animals are written into a new file with data from animalPtr
@@ -85,7 +77,6 @@ int getNrAnimalsInFile(const char* filename)
 	return -1;
 }
 
-/* THE FOLLOWING FUNCTIONS ARE REQUIRED FOR THE AnimalRename ASSIGNMENT */
 int readAnimalFromFile(const char* filename, int filePosition, ANIMAL* animalPtr);
 /* pre    : 
  * post   : read the animal on filePosition (first animal is filePosition 0,
