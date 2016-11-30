@@ -18,6 +18,11 @@ int addAnimal(const ANIMAL* animalPtr, ANIMAL* animalArray, int animalArrayLengt
 
 int sortAnimalsByAge(ANIMAL* animalArray, int animalArrayLength)
 {
+	if (animalArray == NULL)
+	{
+		return -1;
+	}
+
 	ANIMAL tmpAnimal;
 	int changed;
 	do

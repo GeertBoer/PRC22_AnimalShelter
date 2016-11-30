@@ -54,16 +54,27 @@ void test_AddAnimalToNullArray(void)
 
 //int sortAnimalsByAge(ANIMAL* animalArray, int animalArrayLength)
 
-void test_FlipArrayOfAnimals(void)
+void test_SortArrayOf3Animals(void)
 {
 	ANIMAL animal1 = {"Geert", Dog, Male, 19, "Schijndel", {12, 9, 1997}};
-	ANIMAL animal2 = {"Mkoen", Dog, Male, 20, "Limburger", {11, 9, 1938}};
+	ANIMAL animal2 = {"Mkoen", Dog, Male, 20, "Hamburger", {11, 9, 1938}};
 	ANIMAL animal3 = {"Mmroy", Dog, Male, 24, "Limburger", {11, 9, 1838}};
 	ANIMAL animalArray[3] = { animal1, animal2, animal3 };
 
 	sortAnimalsByAge(animalArray, 3);
 
-	TEST_ASSERT_EQUAL(20, animalArray[0].Age);
+	TEST_ASSERT_EQUAL(24, animalArray[0].Age);
+}
+
+void test_SortArrayOfOneAnimal(void)
+{
+	ANIMAL animal1 = {"Geert", Dog, Male, 19, "Schijndel", {12, 9, 1997}};
+
+	ANIMAL animalArray[1] = { animal1 };
+
+	sortAnimalsByAge(animalArray, 1);
+
+	TEST_ASSERT_EQUAL(19, animalArray[0].Age);
 }
 
 int main (int argc, char * argv[])
@@ -73,7 +84,8 @@ int main (int argc, char * argv[])
     MY_RUN_TEST(test_addAnimalToArray);
     MY_RUN_TEST(test_addNullAnimalToArray);
     MY_RUN_TEST(test_AddAnimalToNullArray);
-    MY_RUN_TEST(test_FlipArrayOfAnimals);
+    MY_RUN_TEST(test_SortArrayOf3Animals);
+    MY_RUN_TEST(test_SortArrayOfOneAnimal);
 
     return UnityEnd();
 }
