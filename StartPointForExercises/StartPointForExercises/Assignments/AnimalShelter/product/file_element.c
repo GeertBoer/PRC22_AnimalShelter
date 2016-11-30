@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "file_element.h"
 #include "resource_detector.h"
+#include "file_element.h"
 
 int readAnimals(const char* filename, ANIMAL* animalPtr, int nrAnimals)
 {
@@ -26,43 +27,61 @@ int readAnimals(const char* filename, ANIMAL* animalPtr, int nrAnimals)
 		return -1;
 	}
 	return animalsInFile;
-
-
 }
 
-// int writeAnimals(const char* filename, const ANIMAL* animalPtr, int nrAnimals)
-// {
+int writeAnimals(const char* filename, const ANIMAL* animalPtr, int nrAnimals);
+/* pre    : 
+ * post   : nrAnimals animals are written into a new file with data from animalPtr
+ * returns: On succes: 0
+ *          In case of an error (file could not be written, input pointers are NULL): -1
+ */
 
-// }
+int getNrAnimalsInFile(const char* filename)
+{
+	char mode = 'r';
+	FILE* fp; 
 
-// int getNrAnimalsInFile(const char* filename)
-// {
-// 	//int animalsInFile;
-// 	unsigned char buffer[1000];
-// 	FILE* ptr;
-// 	if(filename == NULL || *filename == "")
-// 	{
-// 		return -1;
-// 	}
-// 	ptr = fopen(filename, rb);
-// 	fread(buffer, sizeof(buffer), , ptr);
-// 	animalsInFile = sizeof(buffer) / sizeof(ANIMAL);
+	if ((filename != NULL) || ((fp = fopen(filename, &mode)) != NULL))
+	{
+		int endOfFilePosition = fseek(fp, 0, SEEK_END);
+		int sizeOfOneAnimal = sizeof(ANIMAL);
 
-	
-	
-// }
+		int amountOfAnimals = endOfFilePosition / sizeOfOneAnimal;
 
-// int readAnimalFromFile(const char* filename, int filePosition, ANIMAL* animalPtr)
-// {
+		return amountOfAnimals;
+	}
 
-// }
+	return -1;
+}
 
-// int writeAnimalToFile(const char* filename, int filePosition, const ANIMAL* animalPtr)
-// {
+/* THE FOLLOWING FUNCTIONS ARE REQUIRED FOR THE AnimalRename ASSIGNMENT */
+int readAnimalFromFile(const char* filename, int filePosition, const char *name, ANIMAL* animalPtr);
+/* pre    : 
+ * post   : read the animal on filePosition (first animal is filePosition 0,
+ *          second animal is filePosition 1, ...) into animalPtr
+ * returns: On success: 0
+ *          On error: -1 (no data available on filePosition, file could not be read, ...)
+ */
 
-// }
+int writeAnimalToFile(const char* filename, int filePosition, const ANIMAL* animalPtr);
+/* pre    : 
+ * post   : write the animal in animalPtr to the file at position 'filePosition'
+ * returns: On success: 0
+ *          On error: -1
+ *
+ **** note: do not open the file in append mode (a or a+): in append mode you ALWAYS
+ ****       write to the end of the file. You cannot open the file in write mode either
+ ****       (w or w+), as this will truncate an existing file to 0 bytes.
+ ****       You MUST open the file in "r+" mode (means: r+w) and if that fails
+ ****       (could mean: file does not exist) retry in "w" mode.
+ */
 
-// int renameAnimalInFile(const char* filename, int filePosition, const char* animalSurname)
-// {
-
-// }
+int renameAnimalInFile(const char* filename, int filePosition, const char* animalSurname);
+/* pre	   :
+ * post    : change the name of the animal on the filePosition in this way:
+ *	     The new name of the animal will start with the animalSurname, followed by a space and followed by the original animal name
+ *	     Example : We have animal called "Max" on the filePosition and animalSurname "Verstappen". The new name of the animal will be "Verstappen Max".
+ *	     The renamed animal will be written back to the file.
+ *  returns: On success: 0
+ *           On error: -1
+ */
