@@ -5,32 +5,29 @@
 
 int readAnimals(const char* filename, ANIMAL* animalPtr, int nrAnimals)
 {
-	//unsigned char buffer[1000];
 	FILE* fp;
-	int animalsInFile = 0;
 	char mode = 'r';
-	if(filename == NULL || animalPtr == NULL)
+
+	int animalsInFile = getNrAnimalsInFile(filename);
+	int animalsReadFromFile = 0;
+	
+	if(filename == NULL || animalPtr == NULL || (fp = fopen(filename, &mode)) != NULL)
 	{
 		return -1;
 	}
+
 	fp = fopen(filename, &mode);
-	if(fp != NULL)
+
+	if(animalsInFile >= nrAnimals)
 	{
-		if(getNrAnimalsInFile(filename) == nrAnimals)
-		{
-			animalsInFile = fread(animalPtr, sizeof(ANIMAL), nrAnimals, fp);	
-		}
-		else if(getNrAnimalsInFile(filename) < nrAnimals)
-		{
-			animalsInFile = fread(animalPtr, sizeof(ANIMAL), nrAnimals, fp);
-		}
-		else
-		{
-		return -1;
-		}
+		animalsReadFromFile = fread(animalPtr, sizeof(ANIMAL), nrAnimals, fp);	
+	}
+	else if(animalsInFile < nrAnimals)
+	{
+		animalsReadFromFile = fread(animalPtr, sizeof(ANIMAL), nrAnimals, fp);
 	}
 	
-	return animalsInFile;
+	return animalsReadFromFile;
 }
 
 int writeAnimals(const char* filename, const ANIMAL* animalPtr, int nrAnimals)

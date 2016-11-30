@@ -25,7 +25,7 @@ int getNrAnimalsInFile(const char* filename);
  */
 
 /* THE FOLLOWING FUNCTIONS ARE REQUIRED FOR THE AnimalRename ASSIGNMENT */
-int readAnimalFromFile(const char* filename, int filePosition, const char *name, ANIMAL* animalPtr);
+int readAnimalFromFile(const char* filename, int filePosition, ANIMAL* animalPtr);
 /* pre    : 
  * post   : read the animal on filePosition (first animal is filePosition 0,
  *          second animal is filePosition 1, ...) into animalPtr
