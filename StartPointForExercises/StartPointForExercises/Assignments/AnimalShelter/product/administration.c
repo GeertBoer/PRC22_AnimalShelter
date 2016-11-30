@@ -79,13 +79,14 @@ int sortAnimalsBySex(ANIMAL *animalArray, int animalArrayLength){
 
         for (int i = 0; i < animalArrayLength; i++)
         {
-            if(animalArray[i].Sex == Female){
-                lastIndex = i;
-                tmpAnimal = animalArray[lastIndex];
+            if(animalArray[i].Sex == Female){               
+                tmpAnimal = animalArray[i];
+                animalArray[i] = tmpAnimal;
+                lastIndex=i;
             }
             else if(animalArray[i].Sex == Male){
-                tmpAnimal = animalArray[lastIndex];    
-                lastIndex = i - 1;            
+                tmpAnimal = animalArray[i]; 
+                animalArray[lastIndex+1] = tmpAnimal;                             
             }
             changed = 1;
         }        
@@ -100,7 +101,7 @@ int findAnimalByName(const char* name, const ANIMAL* animalArray, int animalArra
         for (int i = 0; i < animalArrayLength; i++)
         {
             if(animalArray[i].Name == name){
-                animalPtr = animalArray[i].Name;
+                *animalPtr = animalArray[i];
                 return 0;
             }
         }
