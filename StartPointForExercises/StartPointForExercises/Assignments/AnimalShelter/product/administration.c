@@ -42,3 +42,68 @@ int sortAnimalsByAge(ANIMAL* animalArray, int animalArrayLength)
  * post   : All animals in animalArray are sorted by age
  * returns: 0 on success or -1 if an error occurs
  */
+
+int sortAnimalsByYearFound(ANIMAL* animalArray, int animalArrayLength){
+    
+    ANIMAL tmpAnimal;
+    int changed;
+    do
+    {
+        changed = 0;
+        
+        for (int i = 0; i < animalArrayLength; i++)
+        {
+            if(animalArray[i].DateFound.Year < animalArray[i + 1].DateFound.Year)
+            {
+            tmpAnimal = animalArray[i];
+            animalArray[i] = animalArray[i + 1];
+            animalArray[i + 1] = tmpAnimal;
+            changed = 1;
+            }
+        }
+    } while (changed==1);
+    
+    return 0;
+        
+}
+ 
+int sortAnimalsBySex(ANIMAL *animalArray, int animalArrayLength){
+    
+    ANIMAL tmpAnimal;
+    int changed;
+    int lastIndex;
+
+    do
+    {
+        changed = 0;
+
+        for (int i = 0; i < animalArrayLength; i++)
+        {
+            if(animalArray[i].Sex == Female){
+                lastIndex = i;
+                tmpAnimal = animalArray[lastIndex];
+            }
+            else if(animalArray[i].Sex == Male){
+                tmpAnimal = animalArray[lastIndex];    
+                lastIndex = i - 1;            
+            }
+            changed = 1;
+        }        
+    } while (changed == 1);
+
+    return 0;
+}
+ 
+int findAnimalByName(const char* name, const ANIMAL* animalArray, int animalArrayLength, ANIMAL* animalPtr)
+{
+    if(name != NULL){
+        for (int i = 0; i < animalArrayLength; i++)
+        {
+            if(animalArray[i].Name == name){
+                animalPtr = animalArray[i].Name;
+                return 0;
+            }
+        }
+    }
+    return -1;
+}
