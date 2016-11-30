@@ -56,4 +56,6 @@ int renameAnimalInFile(const char* filename, int filePosition, const char* anima
  *           On error: -1
  */
 
+void testFileIO();
+
 #endif

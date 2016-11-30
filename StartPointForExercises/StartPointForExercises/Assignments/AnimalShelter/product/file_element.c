@@ -3,31 +3,42 @@
 #include "resource_detector.h"
 #include "file_element.h"
 
+
+
+/* pre    : 
+ * post   : If file contains enough Animals, nrAnimals Animals are read into animalPtr.
+ *          If less animals than nrAnimals exist, all animals from the file are read into animalPtr.
+ * returns: Nr of animals written into animalPtr or -1 if an error occurs
+ */
 int readAnimals(const char* filename, ANIMAL* animalPtr, int nrAnimals)
 {
-	FILE* fp;
 	char mode = 'r';
+	FILE* fp;
+	fp = fopen(filename, &mode);
 
 	int animalsInFile = getNrAnimalsInFile(filename);
-	int animalsReadFromFile = 0;
-	
-	if(filename == NULL || animalPtr == NULL || (fp = fopen(filename, &mode)) != NULL)
+	int animalsToRead = 0;
+
+	if(filename == NULL || animalPtr == NULL || fp == NULL)
 	{
+		if (fp == NULL)
+		{
+			fclose(fp);
+		}
 		return -1;
 	}
 
-	fp = fopen(filename, &mode);
+	if (animalsInFile >= nrAnimals)
+	{
+		animalsToRead = nrAnimals;
+	}
+	else
+	{
+		animalsToRead = animalsInFile;
+	}
 
-	if(animalsInFile >= nrAnimals)
-	{
-		animalsReadFromFile = fread(animalPtr, sizeof(ANIMAL), nrAnimals, fp);	
-	}
-	else if(animalsInFile < nrAnimals)
-	{
-		animalsReadFromFile = fread(animalPtr, sizeof(ANIMAL), nrAnimals, fp);
-	}
-	
-	return animalsReadFromFile;
+	fclose(fp);
+	return fread(animalPtr, sizeof(ANIMAL), animalsToRead, fp);
 }
 
 int writeAnimals(const char* filename, const ANIMAL* animalPtr, int nrAnimals)
@@ -45,9 +56,11 @@ int writeAnimals(const char* filename, const ANIMAL* animalPtr, int nrAnimals)
 	{
 		if (fwrite(animalPtr, sizeof(ANIMAL), nrAnimals, fp) != 0)
 		{
+			fclose(fp);
 			return 0;
 		}	
 	}
+	fclose(fp);
 	return -1;	
 }
 /* pre    : 
@@ -63,17 +76,21 @@ int getNrAnimalsInFile(const char* filename)
 {
 	char mode = 'r';
 	FILE* fp; 
+	fp = fopen(filename, &mode);
 
-	if ((filename != NULL) || ((fp = fopen(filename, &mode)) != NULL))
+
+	if ((filename != NULL) || (fp != NULL))
 	{
-		int endOfFilePosition = fseek(fp, 0, SEEK_END);
+
+		fseek(fp, 0L, SEEK_END);  //!!!!!!!!
+		int endOfFilePosition = ftell(fp);
 		int sizeOfOneAnimal = sizeof(ANIMAL);
 
 		int amountOfAnimals = endOfFilePosition / sizeOfOneAnimal;
-
+		fclose(fp);
 		return amountOfAnimals;
 	}
-
+	fclose(fp);
 	return -1;
 }
 
@@ -107,3 +124,14 @@ int renameAnimalInFile(const char* filename, int filePosition, const char* anima
  *  returns: On success: 0
  *           On error: -1
  */
+
+
+/*	####################################### Waar worden files eigenlijk opgeslagen
+void testFileIO()
+{
+	char filename[] = "file.bin";
+	char filemode = 'w';
+	FILE *fp = fopen(filename, &filemode);
+	fseek(fp, 0, SEEK_END);
+	fclose(fp);
+}   */
