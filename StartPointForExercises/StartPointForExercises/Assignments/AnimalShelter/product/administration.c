@@ -4,7 +4,7 @@
 
 int addAnimal(const ANIMAL* animalPtr, ANIMAL* animalArray, int animalArrayLength, int* newAnimalArrayLength)
 {
-	if (animalPtr == NULL || animalArray ==  NULL)
+	if (animalPtr == NULL || animalArray ==  NULL || newAnimalArrayLength == NULL)
 	{
 		return -1;
 	}
