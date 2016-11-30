@@ -14,11 +14,11 @@ int readAnimals(const char* filename, ANIMAL* animalPtr, int nrAnimals)
 		return -1;
 	}
 	fp = fopen(filename, &mode);
-	if(nrAnimals == getNrAnimalsInFile)
+	if(getNrAnimalsInFile(filename) == nrAnimals)
 	{
 		animalsInFile = fread(animalPtr, sizeof(ANIMAL), nrAnimals, fp);	
 	}
-	else if(getNrAnimalsInFile < nrAnimals)
+	else if(getNrAnimalsInFile(filename) < nrAnimals)
 	{
 		animalsInFile = fread(animalPtr, sizeof(ANIMAL), nrAnimals, fp);
 	}
