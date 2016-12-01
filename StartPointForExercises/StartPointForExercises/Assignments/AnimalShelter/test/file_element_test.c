@@ -11,12 +11,17 @@ const char testFileName[] = "testfile.bin";
 
 void setUp(void)
 {
-    // This is run before EACH test
+    ANIMAL animal1 = {"Geert", Dog, Male, 19, "Schijndel", {12, 9, 1997}};
+	ANIMAL animal2 = {"Mkoen", Dog, Male, 20, "Hamburger", {11, 9, 1938}};
+	ANIMAL animal3 = {"Mmroy", Dog, Male, 24, "Limburger", {11, 9, 1838}};
+	ANIMAL animalArray[3] = { animal1, animal2, animal3 };
+
+	writeAnimals(testFileName, animalArray, 3);
 }
 
 void tearDown(void)
 {
-    // This is run after EACH test
+    remove(testFileName);
 }
 
 void test_EmptyTest(void)
@@ -31,7 +36,8 @@ void test_WriteAnimalsTest(void)
 	ANIMAL animal3 = {"Mmroy", Dog, Male, 24, "Limburger", {11, 9, 1838}};
 	ANIMAL animalArray[3] = { animal1, animal2, animal3 };
 
-	TEST_ASSERT_EQUAL(0, writeAnimals(testFileName, animalArray, 3));
+	TEST_ASSERT_EQUAL(0, writeAnimals("specialTestFile.bin", animalArray, 3));
+	remove("specialTestFile.bin");
 }
 
 void test_WriteAnimalsNullFilenameTest(void)
@@ -49,7 +55,7 @@ void test_WriteAnimalsNullArrayTest(void)
 	TEST_ASSERT_EQUAL(-1, writeAnimals(testFileName, NULL, 3));
 }
 
-void test_ReadAnimals(void)
+void test_ReadThreeAnimals(void)
 {
 	int arraySize = 3;
 	ANIMAL animalArray[arraySize];
@@ -106,7 +112,11 @@ int main (int argc, char * argv[])
     MY_RUN_TEST(test_WriteAnimalsTest);
     MY_RUN_TEST(test_WriteAnimalsNullFilenameTest);
     MY_RUN_TEST(test_WriteAnimalsNullArrayTest);
-    MY_RUN_TEST(test_ReadAnimals);
+    MY_RUN_TEST(test_ReadThreeAnimals);
+    MY_RUN_TEST(test_ReadAnimalsTooMuchAnimalsToRead);
+    MY_RUN_TEST(test_ReadAnimalsTooFewAnimalsToRead);
+    MY_RUN_TEST(test_ReadAnimalsNullFilename);
+    MY_RUN_TEST(test_ReadAnimalsNullArray);
 
     remove(testFileName);
 

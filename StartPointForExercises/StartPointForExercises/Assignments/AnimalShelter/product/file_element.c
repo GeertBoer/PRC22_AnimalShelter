@@ -1,9 +1,10 @@
 #include <stdio.h>
+#include <string.h>
 #include "file_element.h"
 #include "resource_detector.h"
 #include "file_element.h"
 
-
+#include "animal.h"
 
 /* pre    : 
  * post   : If file contains enough Animals, nrAnimals Animals are read into animalPtr.
@@ -21,10 +22,7 @@ int readAnimals(const char* filename, ANIMAL* animalPtr, int nrAnimals)
 
 	if(filename == NULL || animalPtr == NULL || fp == NULL)
 	{
-		if (fp == NULL)
-		{
-			fclose(fp);
-		}
+		fclose(fp);
 		return -1;
 	}
 
@@ -52,9 +50,9 @@ int writeAnimals(const char* filename, const ANIMAL* animalPtr, int nrAnimals)
 	}
 
 	fp = fopen(filename, &mode);
-	if(fp!=NULL)
+	if(fp != NULL)
 	{
-		if(fwrite(animalPtr, sizeof(ANIMAL), nrAnimals, fp) == 0)
+		if(fwrite(animalPtr, sizeof(ANIMAL), nrAnimals, fp) != 0)
 		{
 			fclose(fp);
 			return 0;
@@ -81,7 +79,6 @@ int getNrAnimalsInFile(const char* filename)
 
 	if ((filename != NULL) || (fp != NULL))
 	{
-
 		fseek(fp, 0L, SEEK_END);  //!!!!!!!!
 		int endOfFilePosition = ftell(fp);
 		int sizeOfOneAnimal = sizeof(ANIMAL);
@@ -103,7 +100,28 @@ int readAnimalFromFile(const char* filename, int filePosition, ANIMAL* animalPtr
  *          On error: -1 (no data available on filePosition, file could not be read, ...)
  */
 
-int writeAnimalToFile(const char* filename, int filePosition, const ANIMAL* animalPtr);
+int writeAnimalToFile(const char* filename, int filePosition, const ANIMAL* animalPtr)
+{
+	if(filename == NULL || animalPtr == NULL)
+	{
+		return - 1;
+	}
+	FILE *fp;
+	char filemode[] = "r+";
+	fp = fopen(filename, filemode);
+
+	if (fp == NULL)
+	{
+		return -1;
+	}
+
+	int positionToWrite = filePosition * sizeof(ANIMAL);
+	fseek(fp, SEEK_SET, positionToWrite);
+
+	fwrite(animalPtr, sizeof(ANIMAL), 1, fp);
+
+	return 0;
+}
 /* pre    : 
  * post   : write the animal in animalPtr to the file at position 'filePosition'
  * returns: On success: 0
@@ -116,7 +134,19 @@ int writeAnimalToFile(const char* filename, int filePosition, const ANIMAL* anim
  ****       (could mean: file does not exist) retry in "w" mode.
  */
 
-int renameAnimalInFile(const char* filename, int filePosition, const char* animalSurname);
+int renameAnimalInFile(const char* filename, int filePosition, const char* animalSurname)
+{
+	ANIMAL animal;
+	int success = readAnimalFromFile(filename, filePosition, &animal);
+	if (success == -1)
+	{
+		return success;
+	}
+
+	char tmpName[25];
+	strcpy(tmpName, animal.Name);
+	return 0;
+}
 /* pre	   :
  * post    : change the name of the animal on the filePosition in this way:
  *	     The new name of the animal will start with the animalSurname, followed by a space and followed by the original animal name
