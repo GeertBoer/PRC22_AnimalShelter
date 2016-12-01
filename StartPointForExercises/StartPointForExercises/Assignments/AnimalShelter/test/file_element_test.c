@@ -104,6 +104,34 @@ void test_ReadAnimalsNullArray(void)
 	TEST_ASSERT_EQUAL(-1, amountOfReadAnimals);
 }
 
+void test_ReadOneAnimalFromFileWithNullFilename(void)
+{
+	int arraySize = 3;
+	ANIMAL animalArray[arraySize];
+	int positionOfReadAnimal = 1;
+
+	int readAnimal = readAnimalFromFile(NULL, positionOfReadAnimal, animalArray);
+	TEST_ASSERT_EQUAL(-1, readAnimal);
+}
+
+void test_GetNrAnimalsInFile(void)
+{
+	int amountOfAnimals = getNrAnimalsInFile(testFileName);
+	TEST_ASSERT_EQUAL(3, amountOfAnimals);
+}
+
+void test_GetNrAnimalsInNULLFile(void)
+{
+	int amountOfAnimals = getNrAnimalsInFile(NULL);
+	TEST_ASSERT_EQUAL(-1, amountOfAnimals);
+}
+
+void test_GetNrAnimalsInNotExistingFile(void)
+{
+	int amountOfAnimals = getNrAnimalsInFile("quooie.mozzls");
+	TEST_ASSERT_EQUAL(-1, amountOfAnimals);
+}
+
 int main (int argc, char * argv[])
 {
     UnityBegin();
@@ -117,6 +145,10 @@ int main (int argc, char * argv[])
     MY_RUN_TEST(test_ReadAnimalsTooFewAnimalsToRead);
     MY_RUN_TEST(test_ReadAnimalsNullFilename);
     MY_RUN_TEST(test_ReadAnimalsNullArray);
+    MY_RUN_TEST(test_ReadOneAnimalFromFileWithNullFilename);
+    MY_RUN_TEST(test_GetNrAnimalsInFile);
+    MY_RUN_TEST(test_GetNrAnimalsInNULLFile);
+    MY_RUN_TEST(test_GetNrAnimalsInNotExistingFile);
 
     remove(testFileName);
 

@@ -13,6 +13,11 @@
  */
 int readAnimals(const char* filename, ANIMAL* animalPtr, int nrAnimals)
 {
+	if(filename == NULL || animalPtr == NULL)
+	{
+		return -1;
+	}
+
 	char mode = 'r';
 	FILE* fp;
 	fp = fopen(filename, &mode);
@@ -20,9 +25,8 @@ int readAnimals(const char* filename, ANIMAL* animalPtr, int nrAnimals)
 	int animalsInFile = getNrAnimalsInFile(filename);
 	int animalsToRead = 0;
 
-	if(filename == NULL || animalPtr == NULL || fp == NULL)
+	if(fp == NULL)
 	{
-		fclose(fp);
 		return -1;
 	}
 
@@ -74,11 +78,14 @@ int getNrAnimalsInFile(const char* filename)
 {
 	char mode = 'r';
 	FILE* fp; 
-	fp = fopen(filename, &mode);
-
-
-	if ((filename != NULL) || (fp != NULL))
+	if(filename == NULL)
 	{
+		return -1;
+	}
+
+	fp = fopen(filename, &mode);
+	if (fp != NULL)
+	{	
 		fseek(fp, 0L, SEEK_END);  //!!!!!!!!
 		int endOfFilePosition = ftell(fp);
 		int sizeOfOneAnimal = sizeof(ANIMAL);
@@ -87,12 +94,42 @@ int getNrAnimalsInFile(const char* filename)
 		fclose(fp);
 		return amountOfAnimals;
 	}
-	fclose(fp);
+
 	return -1;
 }
 
 /* THE FOLLOWING FUNCTIONS ARE REQUIRED FOR THE AnimalRename ASSIGNMENT */
-int readAnimalFromFile(const char* filename, int filePosition, ANIMAL* animalPtr);
+int readAnimalFromFile(const char* filename, int filePosition, ANIMAL* animalPtr)
+{
+	char mode = 'r';
+	
+	FILE* fp;
+	int animalPosition = filePosition * sizeof(ANIMAL);
+
+	if (filename == NULL)
+	{
+		return -1;
+	}
+
+	fp = fopen(filename, &mode);
+	
+	if(fp != NULL)
+	{
+		fseek(fp, SEEK_SET, animalPosition);
+		if(fread(animalPtr, sizeof(ANIMAL), 1, fp) == 1)
+		{
+			fclose(fp);
+			return 0;
+		}
+		fclose(fp);	
+	}
+	
+	return -1;
+
+	//lezen als animaPTR NULL is
+	//lezen dat het goed gaat
+	//lezen als hij bij end of file is
+}
 /* pre    : 
  * post   : read the animal on filePosition (first animal is filePosition 0,
  *          second animal is filePosition 1, ...) into animalPtr

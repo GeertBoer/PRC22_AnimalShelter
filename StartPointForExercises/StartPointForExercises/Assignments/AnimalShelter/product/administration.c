@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include "administration.h"
 #include "resource_detector.h"
 
@@ -128,7 +129,7 @@ int findAnimalByName(const char* name, const ANIMAL* animalArray, int animalArra
     }
 	for (int i = 0; i < animalArrayLength; i++)
     {
-        if(animalArray[i].Name == name)
+        if(strcmp(animalArray[i].Name, name) == 0)
         {
             *animalPtr = animalArray[i];
             return 0;
