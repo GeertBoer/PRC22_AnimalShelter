@@ -173,23 +173,38 @@ int writeAnimalToFile(const char* filename, int filePosition, const ANIMAL* anim
 
 int renameAnimalInFile(const char* filename, int filePosition, const char* animalSurname)
 {
-	if (filename == NULL || animalSurname == NULL)
+	ANIMAL animalToRename;
+	char tmpName[60];
+	const int maxAnimalNameSize = 25;
+
+	if ((readAnimalFromFile(filename, filePosition, &animalToRename) == -1) || (animalSurname == NULL))
 	{
 		return -1;
 	}
 
-	char tmpName[25];
-	ANIMAL animal;
-	int position = filePosition * sizeof(ANIMAL);
+	int currentNameSize = strlen(animalToRename.Name);
+	int animalSurnameSize = strlen(animalSurname);
+	int sizeOfOneSpace = sizeof(char);
+	int sizeOfNullTerminator = sizeof(char);
 
-	int success = readAnimalFromFile(filename, position, &animal);
-	if (success == -1)
+	if (animalSurnameSize > maxAnimalNameSize)
+	{
+		return -1;
+	}
+	if ((currentNameSize + animalSurnameSize + sizeOfNullTerminator + sizeOfOneSpace) > maxAnimalNameSize)
 	{
 		return -1;
 	}
 
-	strcpy(tmpName, animal.Name);
-	
+	char space = ' ';
+
+	strcpy(tmpName, animalSurname);
+	strcat(tmpName, &space);
+	strcat(tmpName, animalToRename.Name);
+
+	strcpy(animalToRename.Name, tmpName);
+
+
 	return 0;
 }
 /* pre	   :
@@ -210,4 +225,4 @@ void testFileIO()
 	FILE *fp = fopen(filename, &filemode);
 	fseek(fp, 0, SEEK_END);
 	fclose(fp);
-}   */
+}   ###GEVONDEN#### */
