@@ -43,6 +43,8 @@ int readAnimals(const char* filename, ANIMAL* animalPtr, int nrAnimals)
 	return fread(animalPtr, sizeof(ANIMAL), animalsToRead, fp);
 }
 
+
+
 int writeAnimals(const char* filename, const ANIMAL* animalPtr, int nrAnimals)
 {
 	FILE* fp;
@@ -70,8 +72,6 @@ int writeAnimals(const char* filename, const ANIMAL* animalPtr, int nrAnimals)
  * returns: On succes: 0
  *          In case of an error (file could not be written, input pointers are NULL): -1
  */
-
-	
 
 
 int getNrAnimalsInFile(const char* filename)
@@ -173,15 +173,23 @@ int writeAnimalToFile(const char* filename, int filePosition, const ANIMAL* anim
 
 int renameAnimalInFile(const char* filename, int filePosition, const char* animalSurname)
 {
-	ANIMAL animal;
-	int success = readAnimalFromFile(filename, filePosition, &animal);
-	if (success == -1)
+	if (filename == NULL || animalSurname == NULL)
 	{
-		return success;
+		return -1;
 	}
 
 	char tmpName[25];
+	ANIMAL animal;
+	int position = filePosition * sizeof(ANIMAL);
+
+	int success = readAnimalFromFile(filename, position, &animal);
+	if (success == -1)
+	{
+		return -1;
+	}
+
 	strcpy(tmpName, animal.Name);
+	
 	return 0;
 }
 /* pre	   :

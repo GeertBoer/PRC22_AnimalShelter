@@ -79,10 +79,10 @@ int sortAnimalsByYearFound(ANIMAL* animalArray, int animalArrayLength){
 		{
 			if(animalArray[i].DateFound.Year < animalArray[i + 1].DateFound.Year)
 			{
-			tmpAnimal = animalArray[i];
-			animalArray[i] = animalArray[i + 1];
-			animalArray[i + 1] = tmpAnimal;
-			changed = 1;
+				tmpAnimal = animalArray[i];
+				animalArray[i] = animalArray[i + 1];
+				animalArray[i + 1] = tmpAnimal;
+				changed = 1;
 			}
 		}
 	} while (changed==1);  
