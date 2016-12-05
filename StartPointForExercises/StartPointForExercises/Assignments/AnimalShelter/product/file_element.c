@@ -1,10 +1,10 @@
+#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include "file_element.h"
-#include "resource_detector.h"
 #include "file_element.h"
-
 #include "animal.h"
+#include "resource_detector.h"
 
 /* pre    : 
  * post   : If file contains enough Animals, nrAnimals Animals are read into animalPtr.
