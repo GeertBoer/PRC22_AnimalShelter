@@ -114,34 +114,6 @@ void test_ReadOneAnimalFromFileWithNullFilename(void)
 	TEST_ASSERT_EQUAL(-1, readAnimal);
 }
 
-void test_ReadOneAnimalFromFileWithNullPTR(void)
-{
-	int positionOfReadAnimal = 1;
-
-	int readAnimal = readAnimalFromFile("testfile.bin", positionOfReadAnimal, NULL);
-	TEST_ASSERT_EQUAL(-1, readAnimal);
-}
-
-void test_ReadOneSuccesfullAnimal(void)
-{
-	int arraySize = 3;
-	ANIMAL animalArray[arraySize];
-	int positionOfReadAnimal = 1;
-
-	int readAnimal = readAnimalFromFile("testfile.bin", positionOfReadAnimal, animalArray);
-	TEST_ASSERT_EQUAL(0, readAnimal);
-}
-
-void test_ReadOutOfBoundsOfAnimalArray(void)
-{
-	int arraySize = 3;
-	ANIMAL animalArray[arraySize];
-	int positionOfReadAnimal = 38;
-
-	int readAnimal = readAnimalFromFile("testfile.bin", positionOfReadAnimal, animalArray);
-	TEST_ASSERT_EQUAL(-1, readAnimal);
-}
-
 void test_GetNrAnimalsInFile(void)
 {
 	int amountOfAnimals = getNrAnimalsInFile(testFileName);
@@ -184,8 +156,6 @@ int main (int argc, char * argv[])
     MY_RUN_TEST(test_ReadAnimalsNullFilename);
     MY_RUN_TEST(test_ReadAnimalsNullArray);
     MY_RUN_TEST(test_ReadOneAnimalFromFileWithNullFilename);
-    MY_RUN_TEST(test_ReadOneAnimalFromFileWithNullPTR);
-    MY_RUN_TEST(test_ReadOneSuccesfullAnimal);
     MY_RUN_TEST(test_GetNrAnimalsInFile);
     MY_RUN_TEST(test_GetNrAnimalsInNULLFile);
     MY_RUN_TEST(test_GetNrAnimalsInNotExistingFile);
