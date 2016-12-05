@@ -122,6 +122,19 @@ void test_SortArrayOfOneAnimal(void)
 	TEST_ASSERT_EQUAL(19, animalArray[0].Age);
 }
 
+void qsort_testWorking(void)
+{
+	ANIMAL animal1 = {"b", Dog, Male, 19, "Schijndel", {12, 9, 1997}};
+	ANIMAL animal2 = {"a", Dog, Male, 20, "Hamburger", {11, 9, 1938}};
+	ANIMAL animal3 = {"c", Dog, Male, 24, "Limburger", {11, 9, 1838}};
+	ANIMAL animalArray[3] = { animal1, animal2, animal3 };
+
+	qsortTest(animalArray, 3);
+	int comparison = strcmp("a", animalArray[0].Name);
+
+	TEST_ASSERT_EQUAL(0, comparison);
+}
+
 int main (int argc, char * argv[])
 {
     UnityBegin();
@@ -135,6 +148,7 @@ int main (int argc, char * argv[])
     MY_RUN_TEST(test_RemoveAnimalWithNULLName);
     MY_RUN_TEST(test_RemoveAnimalFromNULLArray);
     MY_RUN_TEST(test_RemoveAnimalSuccess);
+    MY_RUN_TEST(qsort_testWorking);
 
     return UnityEnd();
 }

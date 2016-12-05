@@ -39,4 +39,7 @@ int findAnimalByName(const char* name, const ANIMAL* animalArray, int animalArra
  * returns: 1 on success, 0 if not found or -1 if an error occurs
  */
 
+///	TEST
+int qsortTest(ANIMAL *animalArray, int animalArrayLength);
+
 #endif
