@@ -137,3 +137,26 @@ int findAnimalByName(const char* name, const ANIMAL* animalArray, int animalArra
     }        	   
 	return -1;
 }
+
+int stringCompare(const void *voidAnimal1, const void *voidAnimal2)
+{
+	const ANIMAL *animal1 = (const ANIMAL *)voidAnimal1;
+	const ANIMAL *animal2 = (const ANIMAL *)voidAnimal2;
+
+	int comparison = strcmp(animal1->Name, animal2->Name);
+	if (comparison > 0)
+	{
+		return 1;
+	}
+	else if (comparison < 0)
+	{
+		return -1;
+	}
+	return 0;
+}
+
+int qsortTest(ANIMAL *animalArray, int animalArrayLength)
+{
+	qsort(animalArray, animalArrayLength, sizeof(ANIMAL), stringCompare);
+	return 0;
+}
