@@ -11,7 +11,7 @@ int addAnimal(const ANIMAL* animalPtr, ANIMAL* animalArray, int animalArrayLengt
 	}
 	animalArray[animalArrayLength - 1] = *animalPtr;
 	*newAnimalArrayLength = animalArrayLength + 1;
-	return 0;
+	return 0;	
 }
 
 int removeAnimal(const char* name, ANIMAL* animalArray, int animalArrayLength, int* newAnimalArrayLength)
@@ -24,12 +24,12 @@ int removeAnimal(const char* name, ANIMAL* animalArray, int animalArrayLength, i
 	
 		for (int i = 0; i < animalArrayLength; ++i)
 		{
-			if(animalArray[i].Name == name)
+			if(strcmp(animalArray[i].Name, name) == 0)
 			{
 				animalArray[i] = animalArray[animalArrayLength -1];
-				*newAnimalArrayLength = animalArrayLength - 1;
-				numberOfRemovedAnimals++;			
-			}			
+			 	*newAnimalArrayLength = animalArrayLength - 1;
+				numberOfRemovedAnimals++;		
+			}						
 		}
 		return numberOfRemovedAnimals;
 }

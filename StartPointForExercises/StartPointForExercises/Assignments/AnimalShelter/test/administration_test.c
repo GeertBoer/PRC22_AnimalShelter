@@ -26,7 +26,7 @@ void test_EmptyTest(void)
 
 //int addAnimal(const ANIMAL* animalPtr, ANIMAL* animalArray, int animalArrayLength, int* newAnimalArrayLength)
 
-void test_addAnimalToArray(void)
+void test_AddAnimalToArray(void)
 { 
 	ANIMAL animal = {"Geert", Dog, Male, 19, "Schijndel", {12, 9, 1997}};
 	int arraySize = 1;
@@ -36,7 +36,7 @@ void test_addAnimalToArray(void)
 	TEST_ASSERT_EQUAL(2, newArraySize);
 }
 
-void test_addNullAnimalToArray(void)
+void test_AddNullAnimalToArray(void)
 {
 	int arraySize = 1;
 	int newArraySize = 0;
@@ -51,9 +51,54 @@ void test_AddAnimalToNullArray(void)
 	int newArraySize = 0;
 	TEST_ASSERT_EQUAL(-1 ,addAnimal(&animal, NULL, arraySize, &newArraySize));
 }
+void test_RemoveAnimalFromEmptyArray(void)
+{
+	//ANIMAL animal = {"Geert", Dog, Male, 19, "Schijndel", {12, 9, 1997}};
+	int arraySize = 0;
+	int newArraySize = 0;
+	ANIMAL animalArray[arraySize];
+	
 
-//int sortAnimalsByAge(ANIMAL* animalArray, int animalArrayLength)
+	int succes = 0;
+	succes = removeAnimal("Geert", animalArray, arraySize, &newArraySize);
+	TEST_ASSERT_EQUAL(0, succes);
+}
 
+void test_RemoveAnimalWithNULLName(void)
+{
+	ANIMAL animal = { "Geert", Dog, Male, 19, "Schijndel", {12, 9, 1997} };
+	int arraySize = 1;
+	int newArraySize = 0;
+	ANIMAL animalArray[arraySize];
+	addAnimal(&animal, animalArray, arraySize, &newArraySize);
+
+	int succes = 0;
+	succes = removeAnimal(NULL, animalArray, arraySize, &newArraySize);
+	TEST_ASSERT_EQUAL(-1, succes);
+}
+
+void test_RemoveAnimalFromNULLArray(void)
+{
+	int arraySize = 1;
+	int newArraySize = 0;	
+
+	int succes = 0;
+	succes = removeAnimal("Geert", NULL, arraySize, &newArraySize);
+	TEST_ASSERT_EQUAL(-1, succes);
+}
+
+void test_RemoveAnimalSuccess(void)
+{
+	ANIMAL animal = { "Geert", Dog, Male, 19, "Schijndel", {12, 9, 1997} };
+	int arraySize = 1;
+	int newArraySize = 0;
+	ANIMAL animalArray[arraySize];
+	addAnimal(&animal, animalArray, arraySize, &newArraySize);
+
+	int succes = 0;
+	succes = removeAnimal("Geert", animalArray, arraySize, &newArraySize);
+	TEST_ASSERT_EQUAL(1, succes);
+}
 void test_SortArrayOf3Animals(void)
 {
 	ANIMAL animal1 = {"Geert", Dog, Male, 19, "Schijndel", {12, 9, 1997}};
@@ -81,11 +126,15 @@ int main (int argc, char * argv[])
 {
     UnityBegin();
 
-    MY_RUN_TEST(test_addAnimalToArray);
-    MY_RUN_TEST(test_addNullAnimalToArray);
+    MY_RUN_TEST(test_AddAnimalToArray);
+    MY_RUN_TEST(test_AddNullAnimalToArray);
     MY_RUN_TEST(test_AddAnimalToNullArray);
     MY_RUN_TEST(test_SortArrayOf3Animals);
     MY_RUN_TEST(test_SortArrayOfOneAnimal);
+    MY_RUN_TEST(test_RemoveAnimalFromEmptyArray);
+    MY_RUN_TEST(test_RemoveAnimalWithNULLName);
+    MY_RUN_TEST(test_RemoveAnimalFromNULLArray);
+    MY_RUN_TEST(test_RemoveAnimalSuccess);
 
     return UnityEnd();
 }
