@@ -139,6 +139,10 @@ int readAnimalFromFile(const char* filename, int filePosition, ANIMAL* animalPtr
 
 int writeAnimalToFile(const char* filename, int filePosition, const ANIMAL* animalPtr)
 {
+	ANIMAL a = *animalPtr;
+	char animalName[30];
+	strcpy(animalName, a.Name);
+
 	if(filename == NULL || animalPtr == NULL)
 	{
 		return - 1;
@@ -157,6 +161,7 @@ int writeAnimalToFile(const char* filename, int filePosition, const ANIMAL* anim
 
 	fwrite(animalPtr, sizeof(ANIMAL), 1, fp);
 
+	fclose(fp);
 	return 0;
 }
 /* pre    : 
@@ -177,7 +182,7 @@ int renameAnimalInFile(const char* filename, int filePosition, const char* anima
 	char tmpName[60];
 	const int maxAnimalNameSize = 25;
 
-	if ((readAnimalFromFile(filename, filePosition, &animalToRename) == -1) || (animalSurname == NULL))
+	if ((readAnimalFromFile(filename, filePosition, &animalToRename) == -1) || (animalSurname == NULL) || (strlen(animalSurname) <= 0))
 	{
 		return -1;
 	}
@@ -187,6 +192,10 @@ int renameAnimalInFile(const char* filename, int filePosition, const char* anima
 	int sizeOfOneSpace = sizeof(char);
 	int sizeOfNullTerminator = sizeof(char);
 
+	if (!strlen(animalSurname))
+	{
+		return -1;
+	}
 	if (animalSurnameSize > maxAnimalNameSize)
 	{
 		return -1;
@@ -196,14 +205,15 @@ int renameAnimalInFile(const char* filename, int filePosition, const char* anima
 		return -1;
 	}
 
-	char space = ' ';
-
 	strcpy(tmpName, animalSurname);
-	strcat(tmpName, &space);
+	strcat(tmpName, " ");
 	strcat(tmpName, animalToRename.Name);
-
 	strcpy(animalToRename.Name, tmpName);
 
+	if (writeAnimalToFile(filename, filePosition, &animalToRename) == -1)
+	{
+		return -1;
+	}
 
 	return 0;
 }

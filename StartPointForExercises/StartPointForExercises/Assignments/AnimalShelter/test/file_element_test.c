@@ -132,6 +132,16 @@ void test_GetNrAnimalsInNotExistingFile(void)
 	TEST_ASSERT_EQUAL(-1, amountOfAnimals);
 }
 
+void test_RenameAnimal(void)
+{
+	ANIMAL animal;
+	char expectedName[] = "Boer Geert";
+	renameAnimalInFile(testFileName, 0, "Boer");
+	readAnimalFromFile(testFileName, 0, &animal);
+
+	TEST_ASSERT_EQUAL(0, strcmp(expectedName, animal.Name));
+}
+
 int main (int argc, char * argv[])
 {
     UnityBegin();
@@ -149,6 +159,7 @@ int main (int argc, char * argv[])
     MY_RUN_TEST(test_GetNrAnimalsInFile);
     MY_RUN_TEST(test_GetNrAnimalsInNULLFile);
     MY_RUN_TEST(test_GetNrAnimalsInNotExistingFile);
+    MY_RUN_TEST(test_RenameAnimal);
 
     remove(testFileName);
 
