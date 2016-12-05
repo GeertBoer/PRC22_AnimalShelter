@@ -38,9 +38,10 @@ int readAnimals(const char* filename, ANIMAL* animalPtr, int nrAnimals)
 	{
 		animalsToRead = animalsInFile;
 	}
+	int succes = fread(animalPtr, sizeof(ANIMAL), animalsToRead, fp);
 
 	fclose(fp);
-	return fread(animalPtr, sizeof(ANIMAL), animalsToRead, fp);
+	return succes;
 }
 
 
@@ -104,10 +105,11 @@ int readAnimalFromFile(const char* filename, int filePosition, ANIMAL* animalPtr
 	char mode = 'r';
 	
 	FILE* fp;
-	int animalPosition = filePosition * sizeof(ANIMAL);
 
-	if (filename == NULL)
-	{
+	int animalPosition = filePosition * sizeof(ANIMAL);
+		
+	if (filename == NULL || animalPtr == NULL)
+	{		
 		return -1;
 	}
 
@@ -115,20 +117,25 @@ int readAnimalFromFile(const char* filename, int filePosition, ANIMAL* animalPtr
 	
 	if(fp != NULL)
 	{
-		fseek(fp, SEEK_SET, animalPosition);
+		fseek(fp, 0l, SEEK_END);
+		int endOfFile = ftell(fp);
+		if(endOfFile <= animalPosition)
+		{			
+			fclose(fp);
+			return -1;
+		}
+		fseek(fp, 0, SEEK_SET);
+		fseek(fp, SEEK_SET, animalPosition);						
 		if(fread(animalPtr, sizeof(ANIMAL), 1, fp) == 1)
 		{
+			
 			fclose(fp);
 			return 0;
-		}
-		fclose(fp);	
+		}		
+		fclose(fp);
+		return -1;	
 	}
-	
 	return -1;
-
-	//lezen als animaPTR NULL is
-	//lezen dat het goed gaat
-	//lezen als hij bij end of file is
 }
 /* pre    : 
  * post   : read the animal on filePosition (first animal is filePosition 0,
