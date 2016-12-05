@@ -25,6 +25,7 @@ int readAnimals(const char* filename, ANIMAL* animalPtr, int nrAnimals)
 	int animalsInFile = getNrAnimalsInFile(filename);
 	int animalsToRead = 0;
 
+
 	if(fp == NULL)
 	{
 		return -1;
@@ -39,8 +40,10 @@ int readAnimals(const char* filename, ANIMAL* animalPtr, int nrAnimals)
 		animalsToRead = animalsInFile;
 	}
 
+	int succes = 0;
+	succes = fread(animalPtr, sizeof(ANIMAL), animalsToRead, fp);
 	fclose(fp);
-	return fread(animalPtr, sizeof(ANIMAL), animalsToRead, fp);
+	return succes;
 }
 
 
@@ -64,7 +67,7 @@ int writeAnimals(const char* filename, const ANIMAL* animalPtr, int nrAnimals)
 			return 0;
 		}		
 	}
-	fclose(fp);
+	
 	return -1;	
 }
 /* pre    : 
@@ -104,10 +107,15 @@ int readAnimalFromFile(const char* filename, int filePosition, ANIMAL* animalPtr
 	char mode = 'r';
 	
 	FILE* fp;
-	int animalPosition = filePosition * sizeof(ANIMAL);
 
-	if (filename == NULL)
+	
+	int animalPosition = filePosition * sizeof(ANIMAL);
+	
+	
+
+	if (filename == NULL || animalPtr == NULL)
 	{
+		
 		return -1;
 	}
 
@@ -115,13 +123,27 @@ int readAnimalFromFile(const char* filename, int filePosition, ANIMAL* animalPtr
 	
 	if(fp != NULL)
 	{
+		fseek(fp, 0l, SEEK_END);
+		int endOfFile = ftell(fp);
+		if(endOfFile <= animalPosition)
+		{
+			
+			fclose(fp);
+			return -1;
+		}
 		fseek(fp, SEEK_SET, animalPosition);
+		
+		printf("%d\n", fread(animalPtr, sizeof(ANIMAL), 1, fp));
 		if(fread(animalPtr, sizeof(ANIMAL), 1, fp) == 1)
 		{
+			
 			fclose(fp);
 			return 0;
 		}
-		fclose(fp);	
+		
+		printf("%s\n", "kappa3");
+		fclose(fp);
+		return -1;	
 	}
 	
 	return -1;
