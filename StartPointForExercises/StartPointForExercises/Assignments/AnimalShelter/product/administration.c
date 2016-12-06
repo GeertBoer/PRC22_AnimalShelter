@@ -6,7 +6,7 @@
 
 int addAnimal(const ANIMAL* animalPtr, ANIMAL* animalArray, int animalArrayLength, int* newAnimalArrayLength)
 {
-	if (animalPtr == NULL || animalArray ==  NULL || newAnimalArrayLength == NULL)
+	if (animalPtr == NULL || animalArray ==  NULL || newAnimalArrayLength == NULL || animalArrayLength <= 0)
 	{
 		return -1;
 	}
@@ -18,7 +18,7 @@ int addAnimal(const ANIMAL* animalPtr, ANIMAL* animalArray, int animalArrayLengt
 int removeAnimal(const char* name, ANIMAL* animalArray, int animalArrayLength, int* newAnimalArrayLength)
 {
 	int numberOfRemovedAnimals = 0;
-	if(name == NULL || animalArray == NULL)
+	if(name == NULL || animalArray == NULL || animalArrayLength <= 0)
 	{
 		return -1;
 	}
@@ -37,7 +37,7 @@ int removeAnimal(const char* name, ANIMAL* animalArray, int animalArrayLength, i
 
 int sortAnimalsByAge(ANIMAL* animalArray, int animalArrayLength)
 {
-	if (animalArray == NULL || animalArrayLength == 0)
+	if (animalArray == NULL || animalArrayLength <= 0)
 	{
 		return -1;
 	}
@@ -87,8 +87,8 @@ int sortAnimalsByYearFound(ANIMAL* animalArray, int animalArrayLength){
 	return 0;      
 }
  
-int sortAnimalsBySex(ANIMAL* animalArray, int animalArrayLength){
-    
+int sortAnimalsBySex(ANIMAL* animalArray, int animalArrayLength)
+{    
     ANIMAL tmpAnimal;
     int changed;
     int lastIndex;

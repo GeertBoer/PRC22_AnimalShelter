@@ -149,7 +149,7 @@ void test_SortArrayOfAnimalByAgeArrayIsNull(void)
 
 void test_SortArrayOfAnimalByAgeWhileEmptyArray(void)
 {
-	int arraySize = 3;
+	int arraySize = 0;
 	ANIMAL animalArray[arraySize];
 
 	int check = sortAnimalsByAge(animalArray, arraySize);
