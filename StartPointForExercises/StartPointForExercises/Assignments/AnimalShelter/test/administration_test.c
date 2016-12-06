@@ -122,6 +122,41 @@ void test_SortArrayOfOneAnimal(void)
 	TEST_ASSERT_EQUAL(19, animalArray[0].Age);
 }
 
+void test_SortArrayOfAnimalByAgeSucces(void)
+{
+	ANIMAL animal1 = { "Henkie", Dog, Male, 8, "Carribean", {8,12,1993}};
+	ANIMAL animal2 = { "Karel", Cat, Female, 5, "Huukske", {15,9,1997}};
+	ANIMAL animal3 = { "Flopke", Dog, Male, 2, "D'n overkant", {16,10,1998}};
+
+	int arraySize = 3;
+	ANIMAL animalArray[] = { animal1, animal2, animal3 };
+
+	sortAnimalsByAge(animalArray, arraySize);
+	TEST_ASSERT_EQUAL(animalArray[0].Age, 8);
+	TEST_ASSERT_EQUAL(animalArray[1].Age, 5);
+	TEST_ASSERT_EQUAL(animalArray[2].Age, 2);
+	
+	TEST_ASSERT_EQUAL(sortAnimalsByAge(animalArray, arraySize), 0);
+}
+
+void test_SortArrayOfAnimalByAgeArrayIsNull(void)
+{
+	int arraySize = 3;
+	int check = sortAnimalsByAge(NULL, arraySize);
+
+	TEST_ASSERT_EQUAL(check, -1);
+}
+
+void test_SortArrayOfAnimalByAgeWhileEmpty(void)
+{
+	int arraySize = 3;
+	ANIMAL animalArray[arraySize];
+
+	int check = sortAnimalsByAge(animalArray, arraySize);
+
+	TEST_ASSERT_EQUAL(check, -1);
+}
+
 void qsort_testWorking(void)
 {
 	ANIMAL animal1 = {"b", Dog, Male, 19, "Schijndel", {12, 9, 1997}};
@@ -149,6 +184,9 @@ int main (int argc, char * argv[])
     MY_RUN_TEST(test_RemoveAnimalFromNULLArray);
     MY_RUN_TEST(test_RemoveAnimalSuccess);
     MY_RUN_TEST(qsort_testWorking);
-
+    MY_RUN_TEST(test_SortArrayOfAnimalByAgeSucces);
+    MY_RUN_TEST(test_SortArrayOfAnimalByAgeArrayIsNull);
+    MY_RUN_TEST(test_SortArrayOfAnimalByAgeWhileEmpty);
+    
     return UnityEnd();
 }

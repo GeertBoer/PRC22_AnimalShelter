@@ -16,6 +16,7 @@
 #include "animal.h"
 #include "terminal_io.h"
 
+
 const char *filename = "testFile";
 
 static void addAnimalToAdministration(ANIMAL* animals, int* nrAnimals)
