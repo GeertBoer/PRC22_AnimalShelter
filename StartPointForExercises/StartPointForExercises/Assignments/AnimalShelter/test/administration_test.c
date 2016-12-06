@@ -132,11 +132,11 @@ void test_SortArrayOfAnimalByAgeSucces(void)
 	ANIMAL animalArray[] = { animal1, animal2, animal3 };
 
 	sortAnimalsByAge(animalArray, arraySize);
-	TEST_ASSERT_EQUAL(animalArray[0].Age, 8);
-	TEST_ASSERT_EQUAL(animalArray[1].Age, 5);
-	TEST_ASSERT_EQUAL(animalArray[2].Age, 2);
+	TEST_ASSERT_EQUAL(8, animalArray[0].Age);
+	TEST_ASSERT_EQUAL(5, animalArray[1].Age);
+	TEST_ASSERT_EQUAL(2, animalArray[2].Age);
 	
-	TEST_ASSERT_EQUAL(sortAnimalsByAge(animalArray, arraySize), 0);
+	TEST_ASSERT_EQUAL(0, sortAnimalsByAge(animalArray, arraySize));
 }
 
 void test_SortArrayOfAnimalByAgeArrayIsNull(void)
@@ -144,17 +144,17 @@ void test_SortArrayOfAnimalByAgeArrayIsNull(void)
 	int arraySize = 3;
 	int check = sortAnimalsByAge(NULL, arraySize);
 
-	TEST_ASSERT_EQUAL(check, -1);
+	TEST_ASSERT_EQUAL(-1, check);
 }
 
-void test_SortArrayOfAnimalByAgeWhileEmpty(void)
+void test_SortArrayOfAnimalByAgeWhileEmptyArray(void)
 {
 	int arraySize = 3;
 	ANIMAL animalArray[arraySize];
 
 	int check = sortAnimalsByAge(animalArray, arraySize);
 
-	TEST_ASSERT_EQUAL(check, -1);
+	TEST_ASSERT_EQUAL(-1, check);
 }
 
 void qsort_testWorking(void)
@@ -186,7 +186,6 @@ int main (int argc, char * argv[])
     MY_RUN_TEST(qsort_testWorking);
     MY_RUN_TEST(test_SortArrayOfAnimalByAgeSucces);
     MY_RUN_TEST(test_SortArrayOfAnimalByAgeArrayIsNull);
-    MY_RUN_TEST(test_SortArrayOfAnimalByAgeWhileEmpty);
-    
+    MY_RUN_TEST(test_SortArrayOfAnimalByAgeWhileEmptyArray);
     return UnityEnd();
 }
