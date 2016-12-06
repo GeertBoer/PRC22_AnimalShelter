@@ -37,17 +37,14 @@ int removeAnimal(const char* name, ANIMAL* animalArray, int animalArrayLength, i
 
 int sortAnimalsByAge(ANIMAL* animalArray, int animalArrayLength)
 {
-	if (animalArray == NULL)
+	if (animalArray == NULL || animalArrayLength == 0)
 	{
 		return -1;
 	}
-
+	
 	ANIMAL tmpAnimal;
 	int changed;
-	if(animalArray == NULL)
-	{
-		return -1;
-	}	
+	
 	do
 	{
 		changed = 0;
