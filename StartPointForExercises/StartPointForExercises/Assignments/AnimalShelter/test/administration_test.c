@@ -61,7 +61,7 @@ void test_RemoveAnimalFromEmptyArray(void)
 
 	int succes = 0;
 	succes = removeAnimal("Geert", animalArray, arraySize, &newArraySize);
-	TEST_ASSERT_EQUAL(0, succes);
+	TEST_ASSERT_EQUAL(-1, succes);
 }
 
 void test_RemoveAnimalWithNULLName(void)
