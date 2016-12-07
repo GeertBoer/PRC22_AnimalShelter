@@ -54,7 +54,7 @@ int writeAnimals(const char* filename, const ANIMAL* animalPtr, int nrAnimals)
 	FILE* fp;
 	char mode = 'w';
 
-	if(filename == NULL || strcmp(filename, "") || animalPtr == NULL || nrAnimals < 0)
+	if(filename == NULL || strcmp(filename, "") == 0 || animalPtr == NULL || nrAnimals < 0)
 	{
 		return -1;
 	}

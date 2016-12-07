@@ -101,14 +101,14 @@ void test_RemoveAnimalSuccess(void)
 }
 void test_SortArrayOf3Animals(void)
 {
-	ANIMAL animal1 = {"Geert", Dog, Male, 19, "Schijndel", {12, 9, 1997}};
+	ANIMAL animal1 = {"Geert", Dog, Male, 24, "Schijndel", {12, 9, 1997}};
 	ANIMAL animal2 = {"Mkoen", Dog, Male, 20, "Hamburger", {11, 9, 1938}};
-	ANIMAL animal3 = {"Mmroy", Dog, Male, 24, "Limburger", {11, 9, 1838}};
+	ANIMAL animal3 = {"Mmroy", Dog, Male, 19, "Limburger", {11, 9, 1838}};
 	ANIMAL animalArray[3] = { animal1, animal2, animal3 };
 
 	sortAnimalsByAge(animalArray, 3);
 
-	TEST_ASSERT_EQUAL(24, animalArray[0].Age);
+	TEST_ASSERT_EQUAL(19, animalArray[0].Age);
 }
 
 void test_SortArrayOfOneAnimal(void)
@@ -131,12 +131,10 @@ void test_SortArrayOfAnimalByAgeSucces(void)
 	int arraySize = 3;
 	ANIMAL animalArray[] = { animal1, animal2, animal3 };
 
-	sortAnimalsByAge(animalArray, arraySize);
-	TEST_ASSERT_EQUAL(8, animalArray[0].Age);
-	TEST_ASSERT_EQUAL(5, animalArray[1].Age);
-	TEST_ASSERT_EQUAL(2, animalArray[2].Age);
-	
 	TEST_ASSERT_EQUAL(0, sortAnimalsByAge(animalArray, arraySize));
+	TEST_ASSERT_EQUAL(2, animalArray[0].Age);
+	TEST_ASSERT_EQUAL(5, animalArray[1].Age);
+	TEST_ASSERT_EQUAL(8, animalArray[2].Age);
 }
 
 void test_SortArrayOfAnimalByAgeArrayIsNull(void)
