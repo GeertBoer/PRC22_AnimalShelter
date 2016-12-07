@@ -54,8 +54,24 @@ int writeAnimals(const char* filename, const ANIMAL* animalPtr, int nrAnimals)
 	FILE* fp;
 	char mode = 'w';
 
-	if(filename == NULL || strcmp(filename, "") == 0 || animalPtr == NULL || nrAnimals < 0)
+	if(filename == NULL /* || strcmp(filename, "") == 0 || animalPtr == NULL || nrAnimals < 0*/)
 	{
+		printf("%s\n", "een");
+		return -1;
+	}
+	if (strcmp(filename, "") == 0)
+	{
+		printf("%s\n", "twee");
+		return -1;
+	}
+	if (animalPtr == NULL)
+	{
+		printf("%s\n", "drie");
+		return -1;
+	}
+	if (nrAnimals < 0)
+	{
+		printf("%s\n", "vier");
 		return -1;
 	}
 
@@ -129,8 +145,8 @@ int readAnimalFromFile(const char* filename, int filePosition, ANIMAL* animalPtr
 			return -1;
 		}
 
-		fseek(fp, 0, SEEK_SET);
-		fseek(fp, SEEK_SET, animalPosition);						
+		fseek(fp, 0, SEEK_SET);			//////AANGEPAST
+		fseek(fp, animalPosition, 0);						
 		if(fread(animalPtr, sizeof(ANIMAL), 1, fp) == 1)
 		{	
 			fclose(fp);
@@ -175,8 +191,9 @@ int writeAnimalToFile(const char* filename, int filePosition, const ANIMAL* anim
 	}
 
 	int positionToWrite = filePosition * sizeof(ANIMAL);
-	fseek(fp, SEEK_SET, positionToWrite);
-
+	//fseek(fp, SEEK_SET, positionToWrite);
+	fseek(fp, 0, SEEK_SET);
+	fseek(fp, positionToWrite, 0);
 	fwrite(animalPtr, sizeof(ANIMAL), 1, fp);
 
 	fclose(fp);

@@ -21,6 +21,23 @@ int ageCompareAnimal(const void *voidAnimal1, const void *voidAnimal2)
 
 }
 
+int yearFoundCompareAnimal(const void *voidAnimal1, const void *voidAnimal2)
+{
+	const ANIMAL *animal1 = (const ANIMAL *)voidAnimal1;
+	const ANIMAL *animal2 = (const ANIMAL *)voidAnimal2;
+
+	if (animal1->DateFound.Year > animal2->DateFound.Year)
+	{
+		return 1;
+	}
+	else if (animal1->DateFound.Year < animal2->DateFound.Year)
+	{
+		return -1;
+	}
+	else return 0;
+
+}
+
 int stringCompare(const void *voidAnimal1, const void *voidAnimal2)
 {
 	const ANIMAL *animal1 = (const ANIMAL *)voidAnimal1;
@@ -59,12 +76,12 @@ int addAnimal(const ANIMAL* animalPtr, ANIMAL* animalArray, int animalArrayLengt
 
 int removeAnimal(const char* name, ANIMAL* animalArray, int animalArrayLength, int* newAnimalArrayLength)
 {
-	int numberOfRemovedAnimals = 0;
 	if(name == NULL || animalArray == NULL || animalArrayLength < 0 || newAnimalArrayLength == NULL)
 	{
 		return -1;
 	}
-	
+
+	int numberOfRemovedAnimals = 0;
 	for (int i = 0; i < animalArrayLength; i++)
 	{
 		if(strcmp(animalArray[i].Name, name) == 0)
@@ -73,13 +90,12 @@ int removeAnimal(const char* name, ANIMAL* animalArray, int animalArrayLength, i
 			{
 				animalArray[q] = animalArray[q + 1];
 			}
-
-		 	*newAnimalArrayLength = animalArrayLength - 1;
-			numberOfRemovedAnimals++;	
-			i--;	
+			numberOfRemovedAnimals++;
+			i--;
 		}						
 	}
-
+	
+	*newAnimalArrayLength = animalArrayLength - numberOfRemovedAnimals;
 	return numberOfRemovedAnimals;
 }
 
@@ -114,21 +130,23 @@ int sortAnimalsByAge(ANIMAL* animalArray, int animalArrayLength)
 	return 0;	
 }
 
-int sortAnimalsByYearFound(ANIMAL* animalArray, int animalArrayLength){
-    
-    ANIMAL tmpAnimal;
-    int changed;
+int sortAnimalsByYearFound(ANIMAL* animalArray, int animalArrayLength)
+{
+
     if(animalArray == NULL || animalArrayLength < 0)
     {
 		return -1;
 	}
-
+	qsort(animalArray, animalArrayLength, sizeof(ANIMAL), yearFoundCompareAnimal);
+/*
+    ANIMAL tmpAnimal;
+    int changed;
 	do
 	{
 		changed = 0;       
 		for (int i = 0; i < animalArrayLength; i++)
 		{
-			if(animalArray[i].DateFound.Year > animalArray[i + 1].DateFound.Year)
+			if(animalArray[i].DateFound.Year < animalArray[i + 1].DateFound.Year)
 			{
 				tmpAnimal = animalArray[i];
 				animalArray[i] = animalArray[i + 1];
@@ -136,7 +154,7 @@ int sortAnimalsByYearFound(ANIMAL* animalArray, int animalArrayLength){
 				changed = 1;
 			}
 		}
-	} while (changed==1);  
+	} while (changed==1);  */
 
 	return 0;      
 }
