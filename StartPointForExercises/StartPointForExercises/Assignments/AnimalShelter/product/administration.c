@@ -6,11 +6,11 @@
 
 int addAnimal(const ANIMAL* animalPtr, ANIMAL* animalArray, int animalArrayLength, int* newAnimalArrayLength)
 {
-	if (animalPtr == NULL || animalArray ==  NULL || newAnimalArrayLength == NULL || animalArrayLength <= 0)
+	if (animalPtr == NULL || animalArray ==  NULL || newAnimalArrayLength == NULL || animalArrayLength < 0)
 	{
 		return -1;
 	}
-	animalArray[animalArrayLength - 1] = *animalPtr;
+	animalArray[animalArrayLength] = *animalPtr;
 	*newAnimalArrayLength = animalArrayLength + 1;
 	return 0;	
 }
@@ -91,7 +91,7 @@ int sortAnimalsBySex(ANIMAL* animalArray, int animalArrayLength)
 {    
     ANIMAL tmpAnimal;
     int changed;
-    int lastIndex;
+    int lastIndex = 0;
 
 	if(animalArray == NULL)
 	{

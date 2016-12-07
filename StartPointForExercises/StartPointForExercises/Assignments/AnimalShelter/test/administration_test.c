@@ -29,11 +29,11 @@ void test_EmptyTest(void)
 void test_AddAnimalToArray(void)
 { 
 	ANIMAL animal = {"Geert", Dog, Male, 19, "Schijndel", {12, 9, 1997}};
-	int arraySize = 1;
+	int arraySize = 0;
 	int newArraySize = 0;
-	ANIMAL animalArray[arraySize];
+	ANIMAL animalArray[20];
 	TEST_ASSERT_EQUAL(0 ,addAnimal(&animal, animalArray, arraySize, &newArraySize));
-	TEST_ASSERT_EQUAL(2, newArraySize);
+	TEST_ASSERT_EQUAL(1, newArraySize);
 }
 
 void test_AddNullAnimalToArray(void)
@@ -90,14 +90,14 @@ void test_RemoveAnimalFromNULLArray(void)
 void test_RemoveAnimalSuccess(void)
 {
 	ANIMAL animal = { "Geert", Dog, Male, 19, "Schijndel", {12, 9, 1997} };
-	int arraySize = 1;
+	ANIMAL animalArray[20];
+	int arraySize = 0;
 	int newArraySize = 0;
-	ANIMAL animalArray[arraySize];
 	addAnimal(&animal, animalArray, arraySize, &newArraySize);
-
+	
 	int succes = 0;
-	succes = removeAnimal("Geert", animalArray, arraySize, &newArraySize);
-	TEST_ASSERT_EQUAL(1, succes);
+	succes = removeAnimal("Geert", animalArray, newArraySize, &newArraySize);
+	TEST_ASSERT_EQUAL(1, succes);															///////////////ASSERT MUST BE 1!!
 }
 void test_SortArrayOf3Animals(void)
 {
