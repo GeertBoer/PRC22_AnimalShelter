@@ -12,27 +12,29 @@ int addAnimal(const ANIMAL* animalPtr, ANIMAL* animalArray, int animalArrayLengt
 	}
 	animalArray[animalArrayLength] = *animalPtr;
 	*newAnimalArrayLength = animalArrayLength + 1;
+
 	return 0;	
 }
 
 int removeAnimal(const char* name, ANIMAL* animalArray, int animalArrayLength, int* newAnimalArrayLength)
 {
 	int numberOfRemovedAnimals = 0;
-	if(name == NULL || animalArray == NULL || animalArrayLength <= 0)
+	if(name == NULL || animalArray == NULL || animalArrayLength < 0 || newAnimalArrayLength == NULL)
 	{
 		return -1;
 	}
 	
-		for (int i = 0; i < animalArrayLength; ++i)
+	for (int i = 0; i < animalArrayLength; ++i)
+	{
+		if(strcmp(animalArray[i].Name, name) == 0)
 		{
-			if(strcmp(animalArray[i].Name, name) == 0)
-			{
-				animalArray[i] = animalArray[animalArrayLength -1];
-			 	*newAnimalArrayLength = animalArrayLength - 1;
-				numberOfRemovedAnimals++;		
-			}						
-		}
-		return numberOfRemovedAnimals;
+			animalArray[i] = animalArray[animalArrayLength -1];
+		 	*newAnimalArrayLength = animalArrayLength - 1;
+			numberOfRemovedAnimals++;		
+		}						
+	}
+
+	return numberOfRemovedAnimals;
 }
 
 int sortAnimalsByAge(ANIMAL* animalArray, int animalArrayLength)
@@ -59,6 +61,7 @@ int sortAnimalsByAge(ANIMAL* animalArray, int animalArrayLength)
 			}
 		}
 	} while (changed == 1);	
+
 	return 0;	
 }
 
@@ -66,10 +69,11 @@ int sortAnimalsByYearFound(ANIMAL* animalArray, int animalArrayLength){
     
     ANIMAL tmpAnimal;
     int changed;
-    if(animalArray == NULL)
+    if(animalArray == NULL || animalArrayLength < 0)
     {
 		return -1;
 	}
+
 	do
 	{
 		changed = 0;       
@@ -84,6 +88,7 @@ int sortAnimalsByYearFound(ANIMAL* animalArray, int animalArrayLength){
 			}
 		}
 	} while (changed==1);  
+
 	return 0;      
 }
  
@@ -91,40 +96,41 @@ int sortAnimalsBySex(ANIMAL* animalArray, int animalArrayLength)
 {    
     ANIMAL tmpAnimal;
     int changed;
-    int lastIndex = 0;
 
-	if(animalArray == NULL)
+	if(animalArray == NULL || animalArrayLength < 0)
 	{
 		return -1;
 	}
+
 	do
 	{
 		changed = 0;
-		for (int i = 0; i < animalArrayLength; i++)
+		for (int i = 0; i < animalArrayLength - 1; i++)
 		{
-			if(animalArray[i].Sex == Female)
-			{               
-				tmpAnimal = animalArray[i];
-				animalArray[i] = tmpAnimal;
-				lastIndex=i;
-			}
-			else if(animalArray[i].Sex == Male)
+			if (animalArray[i].Sex != animalArray[i + 1].Sex)
 			{
-				tmpAnimal = animalArray[i]; 
-				animalArray[lastIndex+1] = tmpAnimal;                             
+				if (animalArray[i].Sex == Male)
+				{
+					tmpAnimal = animalArray[i];
+					animalArray[i] = animalArray[i + 1];
+					animalArray[i + 1] = tmpAnimal;
+
+					changed = 1;
+				}
 			}
-			changed = 1;
 		}        
 	} while (changed == 1);
+
 	return 0;	
 }
  
 int findAnimalByName(const char* name, const ANIMAL* animalArray, int animalArrayLength, ANIMAL* animalPtr)
 {
-    if(name == NULL || animalArray == NULL || animalPtr == NULL)
+    if(name == NULL || animalArray == NULL || animalArrayLength < 0 || animalPtr == NULL)
     {
 		return -1;      
     }
+
 	for (int i = 0; i < animalArrayLength; i++)
     {
         if(strcmp(animalArray[i].Name, name) == 0)

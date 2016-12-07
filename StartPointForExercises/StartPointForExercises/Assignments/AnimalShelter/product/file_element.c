@@ -12,9 +12,13 @@
  */
 int readAnimals(const char* filename, ANIMAL* animalPtr, int nrAnimals)
 {
-	if(filename == NULL || animalPtr == NULL)
+	if(filename == NULL || strcmp(filename, "") == 0 || animalPtr == NULL || nrAnimals < 0)
 	{
 		return -1;
+	}
+	if (nrAnimals == 0)
+	{
+		return 0;
 	}
 
 	char mode = 'r';
@@ -50,7 +54,7 @@ int writeAnimals(const char* filename, const ANIMAL* animalPtr, int nrAnimals)
 	FILE* fp;
 	char mode = 'w';
 
-	if(filename == NULL || animalPtr == NULL)
+	if(filename == NULL || strcmp(filename, "") || animalPtr == NULL || nrAnimals < 0)
 	{
 		return -1;
 	}
@@ -64,6 +68,7 @@ int writeAnimals(const char* filename, const ANIMAL* animalPtr, int nrAnimals)
 			return 0;
 		}		
 	}
+
 	fclose(fp);
 	return -1;	
 }
@@ -78,7 +83,7 @@ int getNrAnimalsInFile(const char* filename)
 {
 	char mode = 'r';
 	FILE* fp; 
-	if(filename == NULL)
+	if(filename == NULL || strcmp(filename, "") == 0)
 	{
 		return -1;
 	}
@@ -101,19 +106,19 @@ int getNrAnimalsInFile(const char* filename)
 /* THE FOLLOWING FUNCTIONS ARE REQUIRED FOR THE AnimalRename ASSIGNMENT */
 int readAnimalFromFile(const char* filename, int filePosition, ANIMAL* animalPtr)
 {
-	char mode = 'r';
-	
-	FILE* fp;
-
-	int animalPosition = filePosition * sizeof(ANIMAL);
-		
-	if (filename == NULL || animalPtr == NULL)
+	if (filename == NULL || strcmp(filename, "") == 0 || filePosition < 0|| animalPtr == NULL)
 	{		
 		return -1;
 	}
 
+	char mode = 'r';
+	FILE* fp;
+
+	int animalPosition = filePosition * sizeof(ANIMAL);
+		
 	fp = fopen(filename, &mode);
 	
+
 	if(fp != NULL)
 	{
 		fseek(fp, 0l, SEEK_END);
@@ -123,14 +128,15 @@ int readAnimalFromFile(const char* filename, int filePosition, ANIMAL* animalPtr
 			fclose(fp);
 			return -1;
 		}
+
 		fseek(fp, 0, SEEK_SET);
 		fseek(fp, SEEK_SET, animalPosition);						
 		if(fread(animalPtr, sizeof(ANIMAL), 1, fp) == 1)
-		{
-			
+		{	
 			fclose(fp);
 			return 0;
 		}		
+
 		fclose(fp);
 		return -1;	
 	}
@@ -145,21 +151,27 @@ int readAnimalFromFile(const char* filename, int filePosition, ANIMAL* animalPtr
 
 int writeAnimalToFile(const char* filename, int filePosition, const ANIMAL* animalPtr)
 {
+	if(filename == NULL || strcmp(filename, "") == 0 || filePosition < 0 || animalPtr == NULL)
+	{
+		return - 1;
+	}
+
 	ANIMAL a = *animalPtr;
 	char animalName[30];
 	strcpy(animalName, a.Name);
 
-	if(filename == NULL || animalPtr == NULL)
-	{
-		return - 1;
-	}
 	FILE *fp;
 	char filemode[] = "r+";
 	fp = fopen(filename, filemode);
 
 	if (fp == NULL)
 	{
-		return -1;
+		char writemode = 'w';
+		fp = fopen(filename, &writemode);
+		if (fp == NULL)
+		{
+			return -1;
+		}
 	}
 
 	int positionToWrite = filePosition * sizeof(ANIMAL);
